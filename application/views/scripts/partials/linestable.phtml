@@ -1,0 +1,18 @@
+<script type="text/javascript" src="/js/libs/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/js/libs/jquery.jeditable.mini.js"></script>
+<table id="linesTable" class="display">
+    <thead>
+        <tr>
+            <th>Line</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach($this->currentLines as $lines){
+                echo "<tr>";
+                echo "<td id='".$lines->getId()."'>".$lines->getName()."</td>";
+                echo "</tr>";
+            }
+        ?>
+    </tbody>
+</table>

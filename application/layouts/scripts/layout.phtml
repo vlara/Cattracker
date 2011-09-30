@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Cat Tracker</title>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" type="text/css" />        
+        <link href="/css/demo_table.css" media="screen" rel="stylesheet" type="text/css" />
+        <link href="/css/demo_page.css" media="screen" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <header id="mainHeader">
+            <hgroup>
+                <h1>Cat Tracker</h1>
+                <h2>your campus travel guide</h2>
+            </hgroup>
+            <nav>
+                <h2>Main page navigation</h2>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="index/about">About</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                </ul>
+            </nav>
+        </header>
+        <?php echo $this->layout()->content ?>
+    </body>
+</html>
