@@ -14,13 +14,13 @@ Setting Up Your VHOST
 The following is a sample VHOST you might want to consider for your project.
 
 <VirtualHost *:80>
-   DocumentRoot "/Users/vlara/Dropbox/Websites/cattracker/public"
-   ServerName cattracker.local
+   DocumentRoot "/Users/vlara/Dropbox/Projects/Cattracker/public"
+   ServerName Cattracker.local
 
    # This should be omitted in the production environment
    SetEnv APPLICATION_ENV development
 
-   <Directory "/Users/vlara/Dropbox/Websites/cattracker/public">
+   <Directory "/Users/vlara/Dropbox/Projects/Cattracker/public">
        Options Indexes MultiViews FollowSymLinks
        AllowOverride All
        Order allow,deny
