@@ -1,0 +1,26 @@
+<mockup version="1.0" skin="sketch" measuredW="615" measuredH="720" mockupW="600" mockupH="700">
+  <controls>
+    <control controlID="0" controlTypeID="com.balsamiq.mockups::BrowserWindow" x="15" y="20" w="600" h="700" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Cattracker%0Ahttp%3A//cattracker.net</text>
+        <verticalScrollbar>true</verticalScrollbar>
+      </controlProperties>
+    </control>
+    <control controlID="2" controlTypeID="com.balsamiq.mockups::Accordion" x="58" y="362" w="497" h="228" measuredW="150" measuredH="195" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Schedules%0ALocations%0ALines</text>
+      </controlProperties>
+    </control>
+    <control controlID="3" controlTypeID="com.balsamiq.mockups::Map" x="58" y="132" w="497" h="215" measuredW="252" measuredH="222" zOrder="2" locked="false" isInGroup="-1"/>
+    <control controlID="4" controlTypeID="com.balsamiq.mockups::DataGrid" x="126" y="419" w="-1" h="-1" measuredW="333" measuredH="70" zOrder="3" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Name%5Cr%28job%20title%29%20%5E%2C%20Age%2C%20Nickname%2C%20Employee%0AGiacomo%20Guilizzoni%5CrFounder%20%26%20CEO%2C%2034%2C%20Peldi%2C%20%5Bx%5D</text>
+      </controlProperties>
+    </control>
+    <control controlID="5" controlTypeID="com.balsamiq.mockups::Label" x="271" y="101" w="-1" h="-1" measuredW="93" measuredH="21" zOrder="4" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>Administration</text>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
