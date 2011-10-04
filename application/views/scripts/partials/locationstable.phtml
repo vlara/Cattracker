@@ -1,0 +1,32 @@
+    <table id="locationsTable" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+        </thead>
+        <tbody>
+    <?php
+    foreach($this->Locations as $loc){
+        ?>
+        <tr>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->name;?>
+            </td>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->description;?>
+            </td>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->lat;?>
+            </td>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->lng;?>
+            </td>
+        </tr>
+        <?php
+    }
+    ?>
+        </tbody>
+    </table>

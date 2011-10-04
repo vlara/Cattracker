@@ -19,9 +19,9 @@ $(document).ready(function() {
         "bProcessing": true,
         "sScrollY": "200px",
         "bPaginate": false,
-                        "aoColumnDefs": [
-			{ "sWidth": "10%", "aTargets": [ -1 ] }
-		]
+        "aoColumnDefs": [
+            { "sWidth": "10%", "aTargets": [ -1 ] }
+         ]
     });
     
     /* Apply the jEditable handlers to the table */
@@ -40,21 +40,13 @@ $(document).ready(function() {
         "event": "dblclick",
         "height": "14px"
     } );
-//    $(".toggle_container").hide(); 
-//
-//	//Switch the "Open" and "Close" state per click then slide up/down (depending on open/close state)
-//    $("h2.trigger").click(function(){
-//            $(this).toggleClass("active").next().slideToggle("slow");
-//            return false; //Prevent the browser jump to the link anchor
-//    });
-//$( "#accordion" ).accordion({active: false});
 $( "#tabs" ).tabs({
     "show": function(event, ui) {
-			var oTable = $('div.dataTables_scrollBody>table.display', ui.panel).dataTable();
-			if ( oTable.length > 0 ) {
-				oTable.fnAdjustColumnSizing();
-			}
-		}
+        var oTable = $('div.dataTables_scrollBody>table.display', ui.panel).dataTable();
+        if ( oTable.length > 0 ) {
+            oTable.fnAdjustColumnSizing();
+        }
+        }
 });
 } );
 

@@ -22,8 +22,8 @@ $(document).ready(function() {
                         "sScrollY": "200px",
                         "bPaginate": false,
                         "aoColumnDefs": [
-			{ "sWidth": "10%", "aTargets": [ -1 ] }
-		]
+                            { "sWidth": "10%", "aTargets": [ -1 ] }
+                        ]
     });
     
     /* Apply the jEditable handlers to the table */
