@@ -15,6 +15,19 @@ class AdminController extends Zend_Controller_Action
         // action body
     }
     
+    public function unifiedadminAction(){
+        //Line
+        $lineMapper = new Model_LineMapper();
+        $this->view->currentLines = $lineMapper->fetchAll();
+        $formLine = new Form_Line();
+        $this->view->formLine = $formLine;
+        //Locations
+        $locationMapper = new Model_LocationMapper();
+        $this->view->Locations = $locationMapper->fetchAll();
+        $formLocation= new Form_Location();
+        $this->view->formLocation = $formLocation;
+    }
+    
     public function managelinesAction()
     {
         // Query all 
@@ -30,7 +43,7 @@ class AdminController extends Zend_Controller_Action
             if($form->isValid($request->getPost())) {
                 $line = new Model_Line($form->getValues());
                 $lineMapper->save($line);
-                return $this->_helper->redirector('managelines');
+                return $this->_helper->redirector('unifiedadmin');
             }
         }
         
@@ -109,7 +122,7 @@ class AdminController extends Zend_Controller_Action
                     $locationMapper->save($location);
 //                $line = new Model_Line($form->getValues());
 //                $lineMapper->save($line);
-                return $this->_helper->redirector('managelocations');
+                return $this->_helper->redirector('unifiedadmin');
             }
         }
         $this->view->form = $form;
