@@ -1,5 +1,4 @@
 var test;
-var oTable;
 var marker;
 $(document).ready(function() {
     /* Add a click handler to the rows - this could be used as a callback */
@@ -11,16 +10,20 @@ $(document).ready(function() {
     });
 	
     /* Add a click handler for the delete row */
-    $('#delete').click( function() {
+    $('#deleteLoc').click( function() {
         var anSelected = fnGetSelected( oTable );
         oTable.fnDeleteRow( anSelected[0] );
     } );
 	
     /* Init the table */
-    oTable = $('#locationsTable').dataTable({
-        "bJQueryUI": true,
-        "sPaginationType": "full_numbers",
-        "bProcessing": true
+    var oTable = $('#locationsTable').dataTable({
+                        "bJQueryUI": true,
+                        "bProcessing": true,
+                        "sScrollY": "200px",
+                        "bPaginate": false,
+                        "aoColumnDefs": [
+			{ "sWidth": "10%", "aTargets": [ -1 ] }
+		]
     });
     
     /* Apply the jEditable handlers to the table */
@@ -40,7 +43,7 @@ $(document).ready(function() {
             };
         },
         "event": "dblclick",
-        "height": "14px"
+        "height": "10px"
     } );
 } );
 

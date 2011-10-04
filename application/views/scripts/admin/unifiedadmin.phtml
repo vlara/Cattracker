@@ -5,9 +5,9 @@
 <script type="text/javascript" src="/js/manageLocations.js"></script>
 <script type="text/javascript" src="/js/managelines.js"></script>
 <style type="text/css">
-                        html { height: 100% }
-                        body { height: 100%; margin: 0px; padding: 0px }
-                        #map_canvas { height: 50% }
+                        html { height: 90% }
+                        body { height: 80%; margin: 0px; padding: 0px }
+                        #map_canvas { height: 300px }
                         #container {
                                 width: 80%;  /* this will create a container 80% of the browser width */
                                 /* height: 100% */
@@ -15,57 +15,68 @@
                         }
 </style>
 <div id="map_canvas"></div>
-<table id="locationsTable" class="display">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-        </tr>
-    </thead>
-    <tbody>
-<?php
-foreach($this->Locations as $loc){
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Locations</a></li>
+        <li><a href="#tabs-2">Lines</a></li>
+    </ul>
+<!--    <h3 class="trigger"><a href="#">Locations</a></h3>-->
+    <div id="tabs-1" class="toggle_container">
+        <div class="block">
+    <?php 
+    $this->formLocation->setAction('/Admin/managelocations');
+    echo $this->formLocation;
     ?>
-    <tr>
-        <td id="<?php echo $loc->id;?>">
-            <?php echo $loc->name;?>
-        </td>
-        <td id="<?php echo $loc->id;?>">
-            <?php echo $loc->description;?>
-        </td>
-        <td id="<?php echo $loc->id;?>">
-            <?php echo $loc->lat;?>
-        </td>
-        <td id="<?php echo $loc->id;?>">
-            <?php echo $loc->lng;?>
-        </td>
-    </tr>
+    <table id="locationsTable" class="display">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+        </thead>
+        <tbody>
     <?php
-}
-?>
-    </tbody>
-</table>
-<h3><a href="javascript:void(0)" id="delete">Delete selected location</a></h3>
-<?php 
-$this->formLocation->setAction('/Admin/managelocations');
-echo $this->formLocation;
-?>
-
-<h2>Current lines</h2>
-<?php
-echo $this->partial("partials/linestable.phtml",array("currentLines"=>$this->currentLines));
-?>
-<h3><a href="javascript:void(0)" id="delete">Delete selected line</a></h3>
-
-<h2>Please use the form below to create a new line</h2>
-
-<?php
-$this->formLine->setAction('/Admin/managelines');
-echo $this->formLine;
-?>
-<div id="dialog-confirmLine" title="Delete Action" class="dialog-confirmLine" style="display:none">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The Line will be removed. Are you sure?</p>
+    foreach($this->Locations as $loc){
+        ?>
+        <tr>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->name;?>
+            </td>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->description;?>
+            </td>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->lat;?>
+            </td>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->lng;?>
+            </td>
+        </tr>
+        <?php
+    }
+    ?>
+        </tbody>
+    </table>
+    <a href="javascript:void(0)" id="deleteLoc">Delete selected location</a>
+    
+    </div>
+    </div>
+<!--<h3 class="trigger"><a href="#">Lines</a></h3>-->
+<div id="tabs-2"class="toggle_container">
+    <div class="block">
+    <?php
+    $this->formLine->setAction('/Admin/managelines');
+    echo $this->formLine;
+    ?>
+    <?php
+    echo $this->partial("partials/linestable.phtml",array("currentLines"=>$this->currentLines));
+    ?>
+    <a href="javascript:void(0)" id="deleteLine">Delete selected line</a>
+    <div id="dialog-confirmLine" title="Delete Action" class="dialog-confirmLine" style="display:none">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The Line will be removed. Are you sure?</p>
+    </div>
+    </div>
 </div>
-
+</div>
