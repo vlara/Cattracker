@@ -26,6 +26,11 @@ class AdminController extends Zend_Controller_Action
         $this->view->Locations = $locationMapper->fetchAll();
         $formLocation= new Form_Location();
         $this->view->formLocation = $formLocation;
+        //Arrival
+        $arrivalMapper = new Model_ArrivalMapper();
+        $this->view->arrivals = $arrivalMapper->fetchAll();
+        $formArrival = new Form_Arrival();
+        $this->view->formArrival = $formArrival;
     }
     
     public function managelinesAction()

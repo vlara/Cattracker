@@ -48,6 +48,17 @@ class Model_ArrivalMapper {
 //            $this->getDbTable()->update($data, array('id = ?' => $id));
 //        }
     }
+    
+    public function fetchAll(){
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        foreach($resultSet as $result) {
+            $entry = new Model_Arrival();
+            $entry->setLine($result->line)->setLocation($result->location)->setTime($result->time);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
 }
 ?>
 
