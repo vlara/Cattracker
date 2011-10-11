@@ -33,6 +33,25 @@ class AdminController extends Zend_Controller_Action
         $this->view->formArrival = $formArrival;
     }
     
+    public function managearrivalAction(){
+        $arrivalMapper = new Model_ArrivalMapper();
+        $request = $this->getRequest();
+        print_r($request);
+        //$form = new Form_Arrival();
+        
+        if($this->getRequest()->isPost()){
+            //if($form->isValid($request->getPost())){
+                $arrival = new Model_Arrival();
+                $arrival->setLine($request->getParam("line"));
+                $arrival->setLocation($request->getParam("location"));
+                $arrival->setTime($request->getParam("time"));
+                $arrival->setSessionID(1);
+                print_r($arrival);
+                //$arrivalMapper->save($arrival);
+                return $this->_helper->redirector('unifiedadmin');
+            //}
+        }
+    }
     public function managelinesAction()
     {
         // Query all 

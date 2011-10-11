@@ -43,7 +43,7 @@ class Model_ArrivalMapper {
         
 //        if(null === ($id = $location->getId())) {
 //            unset($data['id']);
-//            $this->getDbTable()->insert($data);
+            $this->getDbTable()->insert($data);
 //        } else {
 //            $this->getDbTable()->update($data, array('id = ?' => $id));
 //        }

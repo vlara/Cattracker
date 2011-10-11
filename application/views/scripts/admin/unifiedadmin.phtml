@@ -4,6 +4,7 @@
 <script src="/js/adminLocationMap.js"></script>
 <script type="text/javascript" src="/js/manageLocations.js"></script>
 <script type="text/javascript" src="/js/managelines.js"></script>
+<script type="text/javascript" src="/js/manageArrival.js"></script>
 <style type="text/css">
                         html { height: 100% }
                         body { height: 100%; width: 94%; margin: 3%; padding: 0px }
@@ -34,8 +35,9 @@
         </div>
         <div id="tabs-3">
             <?php
-                $this->formArrival->setAction('/Admin/manageArrival');
+                $this->formArrival->setAction('/Admin/managearrival');
                 echo $this->formArrival;
+                echo $this->partial("partials/arrivalstable.phtml", array("currentArrivals"=>$this->arrivals));
             ?>
         </div>
 </div>
