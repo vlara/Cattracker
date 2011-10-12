@@ -1,16 +1,23 @@
 <script type="text/javascript" src="/js/managelines.js"></script>
-<h2>Current lines</h2>
-<?php
-echo $this->partial("partials/linestable.phtml",array("currentLines"=>$this->currentLines));
-?>
-<h3><a href="javascript:void(0)" id="delete">Delete selected line</a></h3>
+<aside id="featured" class="body">
+    <article>
+        <h2>Current lines</h2>
+        <?php
+        echo $this->partial("partials/linestable.phtml", array("currentLines" => $this->currentLines));
+        ?>
+        <h3><a href="javascript:void(0)" id="delete">Delete selected line</a></h3>
 
-<h2>Please use the form below to create a new line</h2>
+        <h2>Please use the form below to create a new line</h2>
 
-<?php
-$this->form->setAction($this->url());
-echo $this->form;
-?>
-<div id="dialog-confirmLine" title="Delete Action" class="dialog-confirmLine" style="display:none">
-    <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The Line will be removed. Are you sure?</p>
-</div>
+        <?php
+        $this->form->setAction($this->url());
+        echo $this->form;
+        ?>
+        <div id="dialog-confirmLine" title="Delete Action" class="dialog-confirmLine" style="display:none">
+            <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>The Line will be removed. Are you sure?</p>
+        </div>
+    </article>
+</aside><!-- /#featured -->
+
+
+
