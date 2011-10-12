@@ -7,36 +7,39 @@
 <script type="text/javascript" src="/js/managelines.js"></script>
 <script type="text/javascript" src="/js/manageArrival.js"></script>
 <style type="text/css">
-                        html { height: 100% }
-                        body { height: 100%; width: 94%; margin: 3%; padding: 0px }
-                        #map_canvas { height: 300px }
+    #map_canvas { 
+        height: 300px;
+    }
 </style>
-<div id="map_canvas"></div>
-    <div id="tabs">
-        <ul>
-            <li><a href="#tabs-1">Locations</a></li>
-            <li><a href="#tabs-2">Lines</a></li>
-            <li><a href="#tabs-3">Arrivals</a></li>
-            <li><a href="#tabs-4">Sessions</a></li>
-        </ul>
-        <div id="tabs-1">
-            <?php 
+
+<aside id="featured" class="body">
+    <article>
+        <div id="map_canvas"></div>
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Locations</a></li>
+                <li><a href="#tabs-2">Lines</a></li>
+                <li><a href="#tabs-3">Arrivals</a>
+                <li><a href="#tabs-4">Sessions</a></li>
+            </ul>
+            <div id="tabs-1">
+                <?php
                 $this->formLocation->setAction('/Admin/managelocations');
                 echo $this->formLocation;
-                echo $this->partial("partials/locationstable.phtml",array("Locations"=>$this->Locations));
-            ?>
-            <a href="javascript:void(0)" id="deleteLoc">Delete selected location</a>
-        </div>
-        <div id="tabs-2">
-            <?php
+                echo $this->partial("partials/locationstable.phtml", array("Locations" => $this->Locations));
+                ?>
+                <a href="javascript:void(0)" id="deleteLoc">Delete selected location</a>
+            </div>
+            <div id="tabs-2">
+                <?php
                 $this->formLine->setAction('/Admin/managelines');
                 echo $this->formLine;
-                echo $this->partial("partials/linestable.phtml",array("currentLines"=>$this->currentLines));
-            ?>
-            <a href="javascript:void(0)" id="deleteLine">Delete selected line</a>
-        </div>
-        <div id="tabs-3">
-            <?php
+                echo $this->partial("partials/linestable.phtml", array("currentLines" => $this->currentLines));
+                ?>
+                <a href="javascript:void(0)" id="deleteLine">Delete selected line</a>
+            </div>
+            <div id="tabs-3">
+                <?php
                 $this->formArrival->setAction('/Admin/managearrival');
                 echo $this->formArrival;
                 echo $this->partial("partials/arrivalstable.phtml", array("currentArrivals"=>$this->arrivals));
@@ -51,4 +54,6 @@
             ?>
             <a href="javascript:void(0)" id="deleteSession">Delete selected Session</a>
         </div>
-</div>
+
+    </article>
+</aside><!-- /#featured -->
