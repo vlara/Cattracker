@@ -34,9 +34,12 @@ class Model_ArrivalMapper {
     }
     
     public function save(Model_Arrival $Arrival){
+        $newTimeFormat = strtotime($Arrival->getTime());
+        $sqlTime = date("H:i:s",$newTimeFormat);
+        
         $data = array(
             'location' => $Arrival->getLocation(),
-            'time' => $Arrival->getTime(),
+            'time' => $sqlTime,
             'line' => $Arrival->getLine(),
             'sessionID' => $Arrival->getSessionID()
         );

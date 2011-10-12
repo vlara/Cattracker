@@ -26,7 +26,7 @@ class Form_Arrival extends Zend_Form {
         
         $this->setMethod('post');
         
-        $lineSelect = new Zend_Form_Element_Select("lines");
+        $lineSelect = new Zend_Form_Element_Select("line");
         $lineSelect->addMultiOption("0", "- Select Line -");
         foreach($lines as $line){
             $lineSelect->addMultiOption($line->getId(),$line->getName());
@@ -46,7 +46,7 @@ class Form_Arrival extends Zend_Form {
         
         $this->setMethod('post');
         
-        $locSelect = new Zend_Form_Element_Select("locations");
+        $locSelect = new Zend_Form_Element_Select("location");
         $locSelect->addMultiOption("0", "- Select Location -");
         foreach($locations as $location){
             $locSelect->addMultiOption($location->getId(), $location->getName());

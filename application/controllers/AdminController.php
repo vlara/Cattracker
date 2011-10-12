@@ -47,7 +47,7 @@ class AdminController extends Zend_Controller_Action
                 $arrival->setTime($request->getParam("time"));
                 $arrival->setSessionID(1);
                 print_r($arrival);
-                //$arrivalMapper->save($arrival);
+                $arrivalMapper->save($arrival);
                 return $this->_helper->redirector('unifiedadmin');
             //}
         }
