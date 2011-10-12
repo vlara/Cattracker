@@ -42,7 +42,7 @@
                 <?php
                 $this->formArrival->setAction('/Admin/managearrival');
                 echo $this->formArrival;
-                echo $this->partial("partials/arrivalstable.phtml", array("currentArrivals"=>$this->arrivals));
+                echo $this->partial("partials/arrivalstable.phtml", array("currentArrivals"=>$this->arrivals, "Lines" => $this->currentLines, "Locations" => $this->Locations, "Sessions"=>$this->sessions));
             ?>
            <a href="javascript:void(0)" id="deleteArrival">Delete selected Arrival</a>
         </div>
@@ -50,7 +50,7 @@
             <?php 
             $this->formSession->setAction('/Admin/managesession');
             echo $this->formSession;
-            echo $this->partial("partials/sesstionstable.phtml", array("sessions"=>$this->sessions));
+            echo $this->partial("partials/sesstionstable.phtml", array("sessions"=>$this->sessions ));
             ?>
             <a href="javascript:void(0)" id="deleteSession">Delete selected Session</a>
         </div>
