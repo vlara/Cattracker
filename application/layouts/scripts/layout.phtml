@@ -24,13 +24,11 @@
     <body id="index" class="home">
 
         <header id="banner" class="body">
-            <h1><a href="#">cattracker<br /><strong>your campus travel guide</strong></a></h1>
-            <nav><ul>
-                    <li class="active"><a href="/">home</a></li>
-                    <li><a href="index/about">about</a></li>
-
-                    <li><a href="/admin">admin</a></li>
-                </ul></nav>
+            <h1><a href="/">cattracker<br /><strong>your campus travel guide</strong></a></h1>
+            
+            <nav>
+                <?php echo $this->navigation()->menu()->renderMenu($this->topNav)?>
+            </nav>
 
         </header><!-- /#banner -->
 
