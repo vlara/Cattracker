@@ -1,0 +1,18 @@
+<table id="sessionsTable" class="display">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach($this->sessions as $session){
+                echo "<tr>";
+                echo "<td id='".$session->getId()."'>".$session->getDesc()."</td>";
+                echo "<td id='".$session->getId()."'>".$session->getActive()."</td>";
+                echo "</tr>";
+            }
+        ?>
+    </tbody>
+</table>

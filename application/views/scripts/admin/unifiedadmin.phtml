@@ -2,6 +2,7 @@
 <script type="text/javascript" src="/js/libs/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/js/libs/jquery.jeditable.mini.js"></script>
 <script src="/js/adminLocationMap.js"></script>
+<script type="text/javascript" src="/js/manageSession.js"></script>
 <script type="text/javascript" src="/js/manageLocations.js"></script>
 <script type="text/javascript" src="/js/managelines.js"></script>
 <script type="text/javascript" src="/js/manageArrival.js"></script>
@@ -15,7 +16,8 @@
         <ul>
             <li><a href="#tabs-1">Locations</a></li>
             <li><a href="#tabs-2">Lines</a></li>
-            <li><a href="#tabs-3">Arrivals</a>
+            <li><a href="#tabs-3">Arrivals</a></li>
+            <li><a href="#tabs-4">Sessions</a></li>
         </ul>
         <div id="tabs-1">
             <?php 
@@ -39,5 +41,14 @@
                 echo $this->formArrival;
                 echo $this->partial("partials/arrivalstable.phtml", array("currentArrivals"=>$this->arrivals));
             ?>
+           <a href="javascript:void(0)" id="deleteArrival">Delete selected Arrival</a>
+        </div>
+        <div id="tabs-4">
+            <?php 
+            $this->formSession->setAction('/Admin/managesession');
+            echo $this->formSession;
+            echo $this->partial("partials/sesstionstable.phtml", array("sessions"=>$this->sessions));
+            ?>
+            <a href="javascript:void(0)" id="deleteSession">Delete selected Session</a>
         </div>
 </div>

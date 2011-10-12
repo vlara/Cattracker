@@ -31,6 +31,11 @@ class AdminController extends Zend_Controller_Action
         $this->view->arrivals = $arrivalMapper->fetchAll();
         $formArrival = new Form_Arrival();
         $this->view->formArrival = $formArrival;
+        //Session
+        $sessionMapper = new Model_SessionMapper();
+        $this->view->sessions = $sessionMapper->fetchAll();
+        $formSession = new Form_Session();
+        $this->view->formSession = $formSession;
     }
     
     public function managearrivalAction(){
@@ -45,11 +50,22 @@ class AdminController extends Zend_Controller_Action
                 $arrival->setLine($request->getParam("line"));
                 $arrival->setLocation($request->getParam("location"));
                 $arrival->setTime($request->getParam("time"));
-                $arrival->setSessionID(1);
+                $arrival->setSessionID($request->getParam('sessionID'));
                 print_r($arrival);
                 $arrivalMapper->save($arrival);
                 return $this->_helper->redirector('unifiedadmin');
             //}
+        }
+    }
+    public function managesessionAction(){
+        $sessionMapper = new Model_SessionMapper();
+        $request = $this->getRequest();
+        if ($this->getRequest()->isPost()){
+            $session = new Model_Session();
+            $session->setDesc($request->getParam("Description"));
+            $session->setActive($request->getParam("Active"));
+            $sessionMapper->save($session);
+            return $this->_helper->redirector('unifiedadmin');
         }
     }
     public function managelinesAction()
@@ -84,6 +100,8 @@ class AdminController extends Zend_Controller_Action
         $operation = $this->_getParam("operation");
         $lineMapper = new Model_LineMapper();
         $locationMapper = new Model_LocationMapper();
+        $arrivalMapper = new Model_ArrivalMapper();
+        $sessionMapper = new Model_SessionMapper();
         switch ($operation) {
             case "create":
                 break;
@@ -131,7 +149,35 @@ class AdminController extends Zend_Controller_Action
             case "removeLocation":
                 $locationMapper->delete($this->_getParam('locationID'));
                 break;
+            case "removeArrival":
+                $arrivalMapper->delete($this->_getParam('arrivalID'));
+                break;
+            case "arrivalRenameLine":
+                $arrival = new Model_Arrival();
+                $arrivalMapper->find($this->_getParam('sessionID'), $arrival);
+                print_r($arrival);
+                $arrival->setLine($this->_getParam('value'));
+                $arrivalMapper->save($arrival);
+                break;
+            case "removeSession":
+                $sessionMapper->delete($this->_getParam('sessionID'));
+                break;
+            case "editDescriptionSession":
+                $session = new Model_Session();
+                $sessionMapper->find($this->_getParam('id'), $session);
+                $session->setDesc($this->_getParam('value'));
+                $sessionMapper->save($session);
+                echo $this->_getParam('value');
+                break;
+            case "editActiveSession":
+                $session = new Model_Session();
+                $sessionMapper->find($this->_getParam('id'), $session);
+                $session->setActive($this->_getParam('value'));
+                $sessionMapper->save($session);
+                echo $this->_getParam('value');
+                break;
         }
+        
     }
     
     public function managelocationsAction(){

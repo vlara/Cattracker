@@ -1,13 +1,12 @@
 <?php
 
-class Model_ArrivalMapper {
+class Model_SessionMapper {
     protected $_dbTable;
     protected $db;
     
     function __construct() {
         $this->db = Zend_Db_Table_Abstract::getDefaultAdapter();
     }
-    
     public function setDbTable($dbTable) {
         if (is_string($dbTable)) {
             $dbTable = new $dbTable();
@@ -21,35 +20,43 @@ class Model_ArrivalMapper {
 
     public function getDbTable() {
         if (null === $this->_dbTable) {
-            $this->setDbTable('Model_DbTable_Arrival');
+            $this->setDbTable('Model_DbTable_Session');
         }
         return $this->_dbTable;
     }
     
-    public function find($id, Model_Arrival $Arrival) {
+    public function find($id, Model_Session $session) {
         $result = $this->getDbTable()->find($id);
         if (0 == count($result)) {
             return;
         }
         $row = $result->current();
-        $Arrival->setLocation($row->location)
-                ->setTime($row->time)
-                ->setLine($row->line)
-                ->setSessionID($row->sessionId);
+        $session->setId($row->id)
+                ->setDesc($row->description)
+                ->setActive($row->active);
+    }
+    public function fetchAll(){
+        $resultSet = $this->getDbTable()->fetchAll();
+        $entries = array();
+        foreach($resultSet as $result) {
+            $entry = new Model_Session();
+            $entry->setDesc($result->description)
+                    ->setId($result->id)
+                    ->setActive($result->active);
+            $entries[] = $entry;
+        }
+        
+        return $entries;
     }
     
-    public function save(Model_Arrival $Arrival){
-        $newTimeFormat = strtotime($Arrival->getTime());
-        $sqlTime = date("H:i:s",$newTimeFormat);
-        
+    public function save(Model_Session $session){
         $data = array(
-            'location' => $Arrival->getLocation(),
-            'time' => $sqlTime,
-            'line' => $Arrival->getLine(),
-            'sessionID' => $Arrival->getSessionID()
+            'id' => $session->getId(),
+            'description' => $session->getDesc(),
+            'active' => $session->getActive(),
         );
         
-       if(null === ($id = $Arrival->getId())) {
+        if(null === ($id = $session->getId())) {
             unset($data['id']);
             $this->getDbTable()->insert($data);
         } else {
@@ -57,16 +64,6 @@ class Model_ArrivalMapper {
         }
     }
     
-    public function fetchAll(){
-        $resultSet = $this->getDbTable()->fetchAll();
-        $entries = array();
-        foreach($resultSet as $result) {
-            $entry = new Model_Arrival();
-            $entry->setLine($result->line)->setLocation($result->location)->setTime($result->time)->setSessionID($result->sessionID)->setID($result->id);
-            $entries[] = $entry;
-        }
-        return $entries;
-    }
     public function delete($id){
         $table = $this->getDbTable();
         $where = $this->db->quoteInto('id = ?', $id);
@@ -74,4 +71,3 @@ class Model_ArrivalMapper {
     }
 }
 ?>
-

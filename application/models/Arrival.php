@@ -2,7 +2,7 @@
 
 class Model_Arrival
 {
-    
+    protected $id;
     protected $location;
     protected $time;
     protected $line;
@@ -52,7 +52,15 @@ class Model_Arrival
         $this->location = $location;
         return $this;
     }
+    
+    public function setID($id){
+        $this->id = $id;
+        return $this;
+    }
 
+    public function getID(){
+        return $this->id;
+    }
     public function getTime() {
         return $this->time;
     }

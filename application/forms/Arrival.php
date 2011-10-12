@@ -44,8 +44,6 @@ class Form_Arrival extends Zend_Form {
         $locationMapper = new Model_LocationMapper();
         $locations = $locationMapper->fetchAll();
         
-        $this->setMethod('post');
-        
         $locSelect = new Zend_Form_Element_Select("location");
         $locSelect->addMultiOption("0", "- Select Location -");
         foreach($locations as $location){
@@ -59,6 +57,23 @@ class Form_Arrival extends Zend_Form {
         ));
         
         $this->addElement($locSelect);
+        
+        $sessionMapper = new Model_SessionMapper();
+        $sessions = $sessionMapper->fetchAll();
+        
+        $sessionSelect = new Zend_Form_Element_Select("sessionID");
+        $sessionSelect->addMultiOption("0", "- Select Session -");
+        foreach($sessions as $session){
+            $sessionSelect->addMultiOption($session->getId(), $session->getDesc());
+        }
+        $sessionSelect->setDecorators(array(
+            'ViewHelper',
+            'Description',
+            'Label',
+            'Errors'
+        ));
+        
+        $this->addElement($sessionSelect);
         
         $this->addElement('submit', 'submit', array(
             'ignore' => true,

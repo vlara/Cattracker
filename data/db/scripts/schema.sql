@@ -30,12 +30,16 @@ PRIMARY KEY (id)
 DROP TABLE IF EXISTS arrival;
 CREATE TABLE arrival
 (
-location INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
-time TIME,
-line INTEGER UNSIGNED NOT NULL,
-sessionID INTEGER UNSIGNED NOT NULL,
-PRIMARY KEY (location,time,line)
-)ENGINE = INNODB;
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `location` int(10) unsigned NOT NULL,
+  `time` time DEFAULT NULL,
+  `line` int(10) unsigned NOT NULL,
+  `sessionID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `location_idxfk` (`location`),
+  KEY `line_idxfk` (`line`),
+  KEY `sessionID_idxfk` (`sessionID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 ALTER TABLE arrival ADD FOREIGN KEY location_idxfk (location) REFERENCES location (id) ON DELETE CASCADE;
 

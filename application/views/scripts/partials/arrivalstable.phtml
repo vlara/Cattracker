@@ -1,0 +1,32 @@
+<table id="arrivalsTable" class="display">
+    <thead>
+        <tr>
+            <th>Location</th>
+            <th>Time</th>
+            <th>Line</th>
+            <th>Session</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            foreach($this->currentArrivals as $arrivals){
+                ?>
+            <tr>
+            <td id="<?php echo $arrivals->id;?>">
+                <?php echo $arrivals->location;?>
+            </td>
+            <td id="<?php echo $arrivals->id;?>">
+                <?php echo $arrivals->time;?>
+            </td>
+            <td id="<?php echo $arrivals->id;?>">
+                <?php echo $arrivals->line;?>
+            </td>
+            <td id="<?php echo $arrivals->id;?>">
+                <?php echo $arrivals->sessionID?>
+            </td>
+        </tr>
+        <?php
+            }
+        ?>
+    </tbody>
+</table>
