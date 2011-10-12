@@ -13,16 +13,32 @@
                 ?>
             <tr>
             <td id="<?php echo $arrivals->id;?>">
-                <?php echo $arrivals->location;?>
+                <?php
+                foreach ($this->Locations as $loc){
+                    if ($loc->id == $arrivals->location)
+                        echo $loc->name;
+                }
+                ?>
             </td>
             <td id="<?php echo $arrivals->id;?>">
                 <?php echo $arrivals->time;?>
             </td>
             <td id="<?php echo $arrivals->id;?>">
-                <?php echo $arrivals->line;?>
+                <?php 
+                foreach ($this->Lines as $line){
+                    if ($line->id == $arrivals->line)
+                        echo $line->name;
+                }
+                ?>
             </td>
             <td id="<?php echo $arrivals->id;?>">
-                <?php echo $arrivals->sessionID?>
+                <?php 
+                foreach($this->Sessions as $session){
+                 if ($session->id == $arrivals->sessionID){
+                     echo $session->desc;
+                 }
+                }
+                        ?>
             </td>
         </tr>
         <?php
