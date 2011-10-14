@@ -2,13 +2,45 @@
     <thead>
         <tr>
             <th>Line</th>
+            <th>Days</th>
         </tr>
     </thead>
     <tbody>
         <?php
+        //Set Days For Each Line from dos
+            //$days = new array();
+            foreach($this->dos as $do){
+                $line = $do->getLineID();
+                switch($do->getDay()){
+                    case 1: 
+                        $days[$line] = $days[$line] . ',Mon' ;
+                        break;
+                     case 2: 
+                        $days[$line] = $days[$line] . ',Tue' ;
+                        break;
+                     case 3: 
+                        $days[$line] = $days[$line] . ',Wed' ;
+                        break;
+                     case 4: 
+                        $days[$line] = $days[$line] . ',Thu' ;
+                        break;
+                     case 5: 
+                        $days[$line] = $days[$line] . ',Fri' ;
+                        break;
+                     case 6: 
+                        $days[$line] = $days[$line] . ',Sat' ;
+                        break;
+                     case 7: 
+                        $days[$line] = $days[$line] . ',Sun' ;
+                        break;
+                }
+                //$days[$line] = $days[$line] . ',' . $do->getDay();
+                //$days[$do->getLine()] =  arr[$do->getLine()] + $do->getDay();
+            }
             foreach($this->currentLines as $lines){
                 echo "<tr>";
                 echo "<td id='".$lines->getId()."'>".$lines->getName()."</td>";
+                echo "<td id='".$lines->getId()."'>".substr($days[$lines->getid()],1,strlen($days[$lines->getid()]))."</td>";
                 echo "</tr>";
             }
         ?>
