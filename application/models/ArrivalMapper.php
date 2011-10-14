@@ -51,7 +51,13 @@ class Model_ArrivalMapper {
         
        if(null === ($id = $Arrival->getId())) {
             unset($data['id']);
-            $this->getDbTable()->insert($data);
+            try{
+                $this->getDbTable()->insert($data);
+            } catch(Zend_Db_Statement_Exception $e) {
+                if($e->getCode() != 23000) {
+                    print_r($e->getMessage());
+                }
+            }
         } else {
             $this->getDbTable()->update($data, array('id = ?' => $id));
         }

@@ -41,6 +41,12 @@ CREATE TABLE arrival
   KEY `sessionID_idxfk` (`sessionID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
+create table if not exists `daysofoperation` (
+ `lineID` int(10) unsigned NOT NULL,
+ `day` int(1) NOT NULL,
+ UNIQUE KEY `day`(`lineID`,`day`)
+) engine=innodb
+
 ALTER TABLE arrival ADD FOREIGN KEY location_idxfk (location) REFERENCES location (id) ON DELETE CASCADE;
 
 ALTER TABLE arrival ADD FOREIGN KEY line_idxfk (line) REFERENCES line (id) ON DELETE CASCADE;

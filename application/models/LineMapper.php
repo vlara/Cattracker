@@ -69,6 +69,10 @@ class Model_LineMapper {
         $table->delete($where);
         print_r("test");
     }
+    
+    public function getLastInsertedID(){
+        return $this->db->lastInsertId();
+    }
 }
 ?>
 

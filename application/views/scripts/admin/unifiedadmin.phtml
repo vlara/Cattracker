@@ -21,6 +21,7 @@
                 <li><a href="#tabs-2">Lines</a></li>
                 <li><a href="#tabs-3">Arrivals</a>
                 <li><a href="#tabs-4">Sessions</a></li>
+                <li><a href="#tabs-5">Import</a></li>
             </ul>
             <div id="tabs-1">
                 <?php
@@ -53,6 +54,12 @@
             echo $this->partial("partials/sesstionstable.phtml", array("sessions"=>$this->sessions ));
             ?>
             <a href="javascript:void(0)" id="deleteSession">Delete selected Session</a>
+        </div>
+        <div id="tabs-5">
+            <?php
+                $this->urlForm->setAction('/admin/urlparser');
+                echo $this->urlForm;
+            ?>
         </div>
 
     </article>

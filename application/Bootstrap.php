@@ -22,6 +22,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         //add to zend registry
         Zend_Registry::set('Zend_Navigation', $leftNavigation);
     }
+    
+    protected function _initAppAutoload()
+    {
+        $moduleLoad = new Zend_Application_Module_Autoloader(array(
+            'namespace' => '',
+            'basePath' => APPLICATION_PATH
+        ));
+    }
 
 
 }

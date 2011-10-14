@@ -37,6 +37,24 @@ class Model_LocationMapper {
                 ->setName($row->name)
                 ->setDescription($row->description);
     }
+    
+    public function findByName($name, Model_Location $location) {
+        $table = $this->getDbTable();
+        $select = $table->select();
+        $select->where('name = ?', $name);
+        $row = $table->fetchRow($select);
+        if(isset($row)){
+            $location->setDescription($row['description']);
+            $location->setId($row['id']);
+            $location->setLat($row['lat']);
+            $location->setLng($row['lng']);
+            $location->setName($row['name']);
+            return $location;
+        } else {
+            return null;
+        }
+    }
+    
     public function fetchAll(){
         $resultSet = $this->getDbTable()->fetchAll();
         $entries = array();
@@ -74,6 +92,10 @@ class Model_LocationMapper {
         $table = $this->getDbTable();
         $where = $this->db->quoteInto('id = ?', $id);
         $table->delete($where);
+    }
+    
+    public function getLastInsertedID(){
+        return $this->db->lastInsertId();
     }
 }
 ?>

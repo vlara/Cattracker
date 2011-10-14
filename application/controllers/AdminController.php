@@ -1,5 +1,5 @@
 <?php
-
+require_once 'Simpledom/simple_html_dom.php';
 class AdminController extends Zend_Controller_Action
 {
 
@@ -36,6 +36,83 @@ class AdminController extends Zend_Controller_Action
         $this->view->sessions = $sessionMapper->fetchAll();
         $formSession = new Form_Session();
         $this->view->formSession = $formSession;
+        //URL
+        $urlForm = new Form_UrlForm();
+        $this->view->urlForm = $urlForm;
+    }
+    
+    /**
+     * Function that gets the times from a website
+     * and imports the info into our database
+     */
+    public function urlparserAction(){
+        $url = $this->_getParam("url");
+        $html = file_get_html($url);
+        $locationMapper = new Model_LocationMapper();
+        $arrivalMapper = new Model_ArrivalMapper();
+        $x = 0;
+        foreach($html->find('tr') as $tr){
+            if($x > 0){
+                //LOCATION
+                $location = new Model_Location();
+                $desc = $tr->find('td span',0)->plaintext;
+                //name needs to be the substring of name - desc
+                $name = $tr->find('td.text-left',0)->plaintext;
+                $name = substr($name, 0, strlen($name)-strlen($desc));
+                $name = trim($name);
+                // check if the name exists
+                $locationMapper->findByName($name, $location);
+                $locationID = $location->getId();
+                if(isset($locationID)){
+                    // get id
+                } elseif(strlen($name) > 0) {
+                    // save, then get id
+                    $location->setName($name);
+                    $location->setDescription($desc);
+                    $locationMapper->save($location);
+                    $locationID = $locationMapper->getLastInsertedID();
+                }
+                foreach($tr->find('.day') as $time){
+                    $t = $time->plaintext;
+                    if(strlen($t)==3){
+                        $t = '0'.$t;
+                    }
+                    $arrival = new Model_Arrival();
+                    $arrival->setLine($this->_getParam("line"));
+                    $arrival->setLocation($locationID);
+                    $arrival->setTime($t);
+                    $arrival->setSessionID($this->_getParam("sessionID"));
+                    $arrivalMapper->save($arrival);
+                }
+                foreach($tr->find('.night') as $time){
+                    $t = $time->plaintext;
+                    $finalTime = 0;
+                    if(strrpos($t,':')){
+                        $h = explode(':',$t);
+                        if($h[0] < 12){
+                            $h[0] = $h[0] + 12;
+                            $finalTime = $h[0] . ':' . $h[1];
+                        }
+                    } else {
+                        if(strlen($t)==4 && (substr($t,0,2) == '12')){
+                            $finalTime = $t;
+                        } else {
+                            $finalTime = $t + 1200;
+                        }
+                    }
+                    
+                    
+                    $arrival = new Model_Arrival();
+                    $arrival->setLine($this->_getParam("line"));
+                    $arrival->setLocation($locationID);
+                    $arrival->setTime($finalTime);
+                    $arrival->setSessionID($this->_getParam("sessionID"));
+                    $arrivalMapper->save($arrival);
+                }
+            }
+            $x++;
+        }
+        return $this->_helper->redirector('unifiedadmin');
     }
     
     public function managearrivalAction(){
@@ -81,8 +158,45 @@ class AdminController extends Zend_Controller_Action
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($request->getPost())) {
-                $line = new Model_Line($form->getValues());
+                $line = new Model_Line();
+                $line->setName($this->_getParam('name'));
                 $lineMapper->save($line);
+                // get lastinsertedid
+                $lineID = $lineMapper->getLastInsertedID();
+                $doo = new Model_DaysOperation();
+                $dooMapper = new Model_DaysOperationMapper();
+                $doo->setLineID($lineID);
+                // followed by a for loop for the days
+                if($this->_getParam('M')){
+                    $doo->setDay(1);
+                    $dooMapper->save($doo);
+                }
+                if($this->_getParam('T')){
+                    $doo->setDay(2);
+                    $dooMapper->save($doo);
+                }
+                if($this->_getParam('W')){
+                    $doo->setDay(3);
+                    $dooMapper->save($doo);
+                }
+                if($this->_getParam('TH')){
+                    $doo->setDay(4);
+                    $dooMapper->save($doo);
+                }
+                if($this->_getParam('F')){
+                    $doo->setDay(5);
+                    $dooMapper->save($doo);
+                }
+                if($this->_getParam('S')){
+                    $doo->setDay(6);
+                    $dooMapper->save($doo);
+                }
+                if($this->_getParam('SU')){
+                    $doo->setDay(7);
+                    $dooMapper->save($doo);
+                }
+                
+                //finally redirect
                 return $this->_helper->redirector('unifiedadmin');
             }
         }
