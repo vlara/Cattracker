@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <TopNavigation>
+        <page1>
+            <label>home</label>
+            <uri>http://cattracker.net</uri>
+        </page1>
+        <page2>
+            <label>about</label>
+            <uri>http://cattracker.net/index/about</uri>
+        </page2>
+        <page3>
+            <label>admin</label>
+            <uri>http://cattracker.net/admin</uri>
+        </page3>
+    </TopNavigation>
+</config>
