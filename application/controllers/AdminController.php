@@ -39,6 +39,10 @@ class AdminController extends Zend_Controller_Action
         //URL
         $urlForm = new Form_UrlForm();
         $this->view->urlForm = $urlForm;
+        //DaysOfOperation
+        $doMapper = new Model_DaysOperationMapper();
+        $this->view->dos = $doMapper->fetchAll();
+       // die(var_dump($this->views->dos ));
     }
     
     /**
