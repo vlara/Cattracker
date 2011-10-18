@@ -155,6 +155,7 @@ class AdminController extends Zend_Controller_Action
         //$this->view->headScript()->appendFile("/js/deleteLine.js");
         //$this->view->headScript()->appendFile("/js/managelines.js");
         $lineMapper = new Model_LineMapper();
+        $dooMapper = new Model_DaysOperationMapper();
         $this->view->currentLines = $lineMapper->fetchAll();
         
         $request = $this->getRequest();
@@ -163,12 +164,22 @@ class AdminController extends Zend_Controller_Action
         if($this->getRequest()->isPost()) {
             if($form->isValid($request->getPost())) {
                 $line = new Model_Line();
-                $line->setName($this->_getParam('name'));
+                if(strlen($this->_getParam('LineID')) > 0){
+                    $id = $this->_getParam('LineID');
+                    $line->setId($id);
+                    //delete all days for table being edited
+                    $dooMapper->deleteByLineID($id);
+                }
+                $line->setName($this->_getParam('LineName'));
                 $lineMapper->save($line);
                 // get lastinsertedid
-                $lineID = $lineMapper->getLastInsertedID();
+                 if(strlen($this->_getParam('LineID')) <= 0)
+                    $lineID = $lineMapper->getLastInsertedID();
+                else{
+                    $lineID = $this->_getParam('LineID');
+                }
                 $doo = new Model_DaysOperation();
-                $dooMapper = new Model_DaysOperationMapper();
+                
                 $doo->setLineID($lineID);
                 // followed by a for loop for the days
                 if($this->_getParam('M')){
@@ -199,7 +210,6 @@ class AdminController extends Zend_Controller_Action
                     $doo->setDay(7);
                     $dooMapper->save($doo);
                 }
-                
                 //finally redirect
                 return $this->_helper->redirector('unifiedadmin');
             }

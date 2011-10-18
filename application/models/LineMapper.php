@@ -45,6 +45,7 @@ class Model_LineMapper {
             unset($data['id']);
             $this->getDbTable()->insert($data);
         } else {
+            
             $this->getDbTable()->update($data, array('id = ?' => $id));
         }
     }

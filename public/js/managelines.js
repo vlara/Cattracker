@@ -27,7 +27,6 @@ $(document).ready(function() {
             "sWidth": "10%", 
             "aTargets": [ -1 ]
             },
-
             {
             "bSearchable": false, 
             "bVisible": false, 
@@ -45,18 +44,15 @@ $(document).ready(function() {
     });
 } );
 
-
 /* Get the rows which are currently selected */
 function fnGetSelectedLine( oTableLocal )
 {
     var aReturn = new Array();
     var aTrs = oTableLocal.fnGetNodes();
-	
     for ( var i=0 ; i<aTrs.length ; i++ )
     {
         if ( $(aTrs[i]).hasClass('row_selected') )
         {
-            //deleteLine(aTrs[i].cells[0].id);
             aReturn.push( aTrs[i] );
         }
     }
@@ -64,6 +60,9 @@ function fnGetSelectedLine( oTableLocal )
 }
 
 function deleteLine(id){
+    $('input:checkbox').removeAttr('checked');
+    $('#LineID').val("");
+    $('#LineName').val("");
     $.get("/admin/crr", {
         'operation' : 'remove',
         'lineID' : id
@@ -77,29 +76,29 @@ function fillLineForm(oTableLocal){
     $('#LineID').val(data[0]);
     $('#LineName').val(data[1]);
     var days = data[2].split(',');
-    for (day in days){
-        switch(parseInt(day)){
-            case 0:
+    for(i = 0; i < days.length; i++){
+        switch(days[i]){
+            case "Mon":
                 $('#M').prop("checked", true);
                 break;
-            case 1:
+            case "Tue":
                 $('#T').prop("checked", true);
                 break;
-            case 2:
+            case "Wed":
                 $('#W').prop("checked", true);
                 break;
-            case 3:
+            case "Thu":
                 $('#TH').prop("checked", true);
                 break;
-            case 4:
+            case "Fri":
                 $('#F').prop("checked", true);
                 break;
-            case 5:
+            case "Sat":
                 $('#S').prop("checked", true);
                 break;
-            case 6:
+            case "Sun":
                 $('#SU').prop("checked", true);
                 break;
         }
     }
-};
+}
