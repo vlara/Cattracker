@@ -1,6 +1,7 @@
 <table id="linesTable" class="display">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Line</th>
             <th>Days</th>
         </tr>
@@ -39,6 +40,7 @@
             }
             foreach($this->currentLines as $lines){
                 echo "<tr>";
+                echo "<td id='".$lines->getId()."'>".$lines->getId()."</td>";
                 echo "<td id='".$lines->getId()."'>".$lines->getName()."</td>";
                 echo "<td id='".$lines->getId()."'>".substr($days[$lines->getid()],1,strlen($days[$lines->getid()]))."</td>";
                 echo "</tr>";

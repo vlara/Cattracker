@@ -5,49 +5,44 @@ $(document).ready(function() {
             $(this.nTr).removeClass('row_selected');
         });
         $(event.target.parentNode).addClass('row_selected');
+        fillLineForm(oTableLine);//Fills In Tthe Form
     });
-	
     /* Add a click handler for the delete row */
     $('#deleteLine').click( function() {
         var anSelected = fnGetSelectedLine( oTableLine );
+        var row = anSelected[0];
+        var data = oTableLine.fnGetData(row);
         oTableLine.fnDeleteRow( anSelected[0] );
+        deleteLine(data[0]);
     } );
 	
     /* Init the table */
     var oTableLine = $('#linesTable').dataTable({
         "bJQueryUI": true,
-        "bProcessing": true,
+        //"bProcessing": true,
         "sScrollY": "200px",
         "bPaginate": false,
         "aoColumnDefs": [
-            { "sWidth": "10%", "aTargets": [ -1 ] }
-         ]
+        {
+            "sWidth": "10%", 
+            "aTargets": [ -1 ]
+            },
+
+            {
+            "bSearchable": false, 
+            "bVisible": false, 
+            "aTargets": [ 0 ]
+            }//Removing ID
+        ]
     });
-    
-    /* Apply the jEditable handlers to the table */
-    $('td', oTableLine.fnGetNodes()).editable( '/admin/crr', {
-        "callback": function( sValue, y ) {
-            var aPos = oTableLine.fnGetPosition( this );
-            oTableLine.fnUpdate( sValue, aPos[0], aPos[1] );
-        },
-        "submitdata": function ( value, settings ) {
-            return {
-                "operation": 'rename',
-                "row_id": this.parentNode.getAttribute('id'),
-                "column": oTableLine.fnGetPosition( this )[2]
-            };
-        },
-        "event": "dblclick",
-        "height": "14px"
-    } );
-$( "#tabs" ).tabs({
-    "show": function(event, ui) {
-        var oTable = $('div.dataTables_scrollBody>table.display', ui.panel).dataTable();
-        if ( oTable.length > 0 ) {
-            oTable.fnAdjustColumnSizing();
+    $( "#tabs" ).tabs({
+        "show": function(event, ui) {
+            var oTable = $('div.dataTables_scrollBody>table.display', ui.panel).dataTable();
+            if ( oTable.length > 0 ) {
+                oTable.fnAdjustColumnSizing();
+            }
         }
-        }
-});
+    });
 } );
 
 
@@ -61,7 +56,7 @@ function fnGetSelectedLine( oTableLocal )
     {
         if ( $(aTrs[i]).hasClass('row_selected') )
         {
-            deleteLine(aTrs[i].cells[0].id);
+            //deleteLine(aTrs[i].cells[0].id);
             aReturn.push( aTrs[i] );
         }
     }
@@ -74,3 +69,37 @@ function deleteLine(id){
         'lineID' : id
     });
 }
+function fillLineForm(oTableLocal){
+    $('input:checkbox').removeAttr('checked');
+    var ret_arr = fnGetSelectedLine(oTableLocal);
+    var row = ret_arr[0];
+    var data = oTableLocal.fnGetData(row);
+    $('#LineID').val(data[0]);
+    $('#LineName').val(data[1]);
+    var days = data[2].split(',');
+    for (day in days){
+        switch(parseInt(day)){
+            case 0:
+                $('#M').prop("checked", true);
+                break;
+            case 1:
+                $('#T').prop("checked", true);
+                break;
+            case 2:
+                $('#W').prop("checked", true);
+                break;
+            case 3:
+                $('#TH').prop("checked", true);
+                break;
+            case 4:
+                $('#F').prop("checked", true);
+                break;
+            case 5:
+                $('#S').prop("checked", true);
+                break;
+            case 6:
+                $('#SU').prop("checked", true);
+                break;
+        }
+    }
+};

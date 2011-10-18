@@ -8,11 +8,24 @@ class Form_Line extends Zend_Form {
     public function init() {
         $this->setMethod('post');
 
-        $this->addElement('text', 'name', array(
+        $this->addElement('hidden', 'LineID', array(
+            //'label' => 'Id', NOT NEEDED, HIDDEN
+            'required' => false
+        ));
+        $this->LineID->setDecorators(array(
+            'ViewHelper',
+            'Description',
+            'Errors',
+            array(array('data' => 'HtmlTag'), array('tag' => 'td')),
+            array('Label', array('tag' => 'td')),
+            array(array('row' => 'HtmlTag'), array('tag' => 'tr', 'openOnly' => true))
+        ));
+        
+        $this->addElement('text', 'LineName', array(
             'label' => 'Line name',
             'required' => true
         ));
-        $this->name->setDecorators(array(
+        $this->LineName->setDecorators(array(
             'ViewHelper',
             'Description',
             'Errors',
