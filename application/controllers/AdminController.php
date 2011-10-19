@@ -143,7 +143,11 @@ class AdminController extends Zend_Controller_Action
         $request = $this->getRequest();
         if ($this->getRequest()->isPost()){
             $session = new Model_Session();
-            $session->setDesc($request->getParam("Description"));
+            if(strlen($this->_getParam('SessionID')) > 0){
+                    $id = $this->_getParam('SessionID');
+                    $session->setId($id);
+            }
+            $session->setDesc($request->getParam("DescriptionForm"));
             $session->setActive($request->getParam("Active"));
             $sessionMapper->save($session);
             return $this->_helper->redirector('unifiedadmin');
