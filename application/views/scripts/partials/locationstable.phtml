@@ -1,6 +1,7 @@
     <table id="locationsTable" class="display">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Latitude</th>
@@ -12,6 +13,9 @@
     foreach($this->Locations as $loc){
         ?>
         <tr>
+            <td id="<?php echo $loc->id;?>">
+                <?php echo $loc->id;?>
+            </td>
             <td id="<?php echo $loc->id;?>">
                 <?php echo $loc->name;?>
             </td>

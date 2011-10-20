@@ -33,23 +33,6 @@ $(document).ready(function() {
          ]
     });
     
-    /* Apply the jEditable handlers to the table */
-//    $('td', oTableLine.fnGetNodes()).editable( '/admin/crr', {
-//        "callback": function( sValue, y ) {
-//            var aPos = oTableLine.fnGetPosition( this );
-//            oTableLine.fnUpdate( sValue, aPos[0], aPos[1] );
-//        },
-//        "submitdata": function ( value, settings ) {
-//             var ret_arr = oTableLine.fnGetPosition( this );
-//            return {
-//                "operation": 'edit' + oTableLine.fnSettings().aoColumns[ret_arr[1]].sTitle +'Session',
-//                "row_id": this.parentNode.getAttribute('id'),
-//                "column": oTableLine.fnGetPosition( this )[2]
-//            };
-//        },
-//        "event": "dblclick",
-//        "height": "14px"
-//    } );
 $( "#tabs" ).tabs({
     "show": function(event, ui) {
         var oTable = $('div.dataTables_scrollBody>table.display', ui.panel).dataTable();
@@ -97,4 +80,4 @@ function fillSessionForm(oTableLocal){
     $('#DescriptionForm').val(data[1]);
     if (data[2] == 1)
         $('#Active').prop("checked", true);
-    }
+}

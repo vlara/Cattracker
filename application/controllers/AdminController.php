@@ -320,10 +320,15 @@ class AdminController extends Zend_Controller_Action
         
         if($this->getRequest()->isPost()) {
             if($form->isValid($request->getPost())) {
-                    $location = new Model_Location($form->getValues());
+                    $location = new Model_Location();
+                    $location->setName($this->_getParam("LocationName"));
+                    $location->setDescription($this->_getParam("LocationDescription"));
+                    $location->setLat($this->_getParam("lat"));
+                    $location->setLng($this->_getParam("lng"));
+                     if(strlen($this->_getParam("LocationID")) > 0){
+                        $location->setId($this->_getParam("LocationID"));
+                    }
                     $locationMapper->save($location);
-//                $line = new Model_Line($form->getValues());
-//                $lineMapper->save($line);
                 return $this->_helper->redirector('unifiedadmin');
             }
         }

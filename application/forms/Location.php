@@ -8,11 +8,11 @@ class Form_Location extends Zend_Form {
     public function init() {
         $this->setMethod('post');
         
-        $this->addElement('text', 'name', array(
-            'label' => 'Name:',
-            'required' => true
+        $this->addElement('hidden', 'LocationID', array(
+            //'label' => 'Id', NOT NEEDED, HIDDEN
+            'required' => false
         ));
-        $this->name->setDecorators(array(
+        $this->LocationID->setDecorators(array(
             'ViewHelper',
             'Description',
             'Errors',
@@ -21,11 +21,24 @@ class Form_Location extends Zend_Form {
             array(array('row' => 'HtmlTag'), array('tag' => 'tr', 'openOnly' => true))
         ));
         
-        $this->addElement('text', 'Description', array(
+        $this->addElement('text', 'LocationName', array(
+            'label' => 'Name:',
+            'required' => true
+        ));
+        $this->LocationName->setDecorators(array(
+            'ViewHelper',
+            'Description',
+            'Errors',
+            array(array('data' => 'HtmlTag'), array('tag' => 'td')),
+            array('Label', array('tag' => 'td')),
+            array(array('row' => 'HtmlTag'), array('tag' => 'tr', 'openOnly' => true))
+        ));
+        
+        $this->addElement('text', 'LocationDescription', array(
             'label' => 'Description:',
             'required' => true
         ));
-        $this->Description->setDecorators(array(
+        $this->LocationDescription->setDecorators(array(
             'ViewHelper',
             'Description',
             'Errors',
