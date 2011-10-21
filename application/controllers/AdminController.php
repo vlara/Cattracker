@@ -128,11 +128,14 @@ class AdminController extends Zend_Controller_Action
         if($this->getRequest()->isPost()){
             //if($form->isValid($request->getPost())){
                 $arrival = new Model_Arrival();
+                 if(strlen($this->_getParam('ArrivalID')) > 0){
+                    $id = $this->_getParam('ArrivalID');
+                    $arrival->setID($id);
+                }
                 $arrival->setLine($request->getParam("line"));
                 $arrival->setLocation($request->getParam("location"));
                 $arrival->setTime($request->getParam("time"));
                 $arrival->setSessionID($request->getParam('sessionID'));
-                print_r($arrival);
                 $arrivalMapper->save($arrival);
                 return $this->_helper->redirector('unifiedadmin');
             //}

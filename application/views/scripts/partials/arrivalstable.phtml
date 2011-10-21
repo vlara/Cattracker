@@ -1,6 +1,7 @@
 <table id="arrivalsTable" class="display">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Location</th>
             <th>Time</th>
             <th>Line</th>
@@ -12,6 +13,7 @@
             foreach($this->currentArrivals as $arrivals){
                 ?>
             <tr>
+             <td id="<?php echo $arrivals->id;?>"><?php echo $arrivals->id;?></td>
             <td id="<?php echo $arrivals->id;?>">
                 <?php
                 foreach ($this->Locations as $loc){
