@@ -1,5 +1,4 @@
 var marker;
-var event2;
 $(document).ready(function() {
     /* Add a click handler to the rows - this could be used as a callback */
     $("#locationsTable tbody").click(function(event) {
@@ -8,6 +7,7 @@ $(document).ready(function() {
         });
         //$(event.target.parentNode).addClass('row_selected');
         setupMarker(event);
+        $(event.target.parentNode).addClass('row_selected');
         fillLocationForm(oTableLocation);
         
     });
@@ -15,74 +15,62 @@ $(document).ready(function() {
     /* Add a click handler for the delete row */
     $('#deleteLoc').click( function() {
         var anSelected = fnGetSelectedLocation( oTableLocation );
+        var row = anSelected[0];
+        var data = oTableLocation.fnGetData(row);
         oTableLocation.fnDeleteRow( anSelected[0] );
+        deleteLocation(data[0]);
     } );
 	
     /* Init the table */
     var oTableLocation = $('#locationsTable').dataTable({
-                        "bJQueryUI": true,
-                        "bProcessing": true,
-                        "sScrollY": "200px",
-                        "bPaginate": false,
-                        "aoColumnDefs": [
-                            { "sWidth": "10%", "aTargets": [ -1 ] },
-                        {
-                        "bSearchable": false, 
-                        "bVisible": false, 
-                        "aTargets": [ 0 ]
-                        }//Removing ID
-                        ]
+        "bJQueryUI": true,
+        "bProcessing": true,
+        "sScrollY": "200px",
+        "bPaginate": false,
+        "aoColumnDefs": [
+        {
+            "sWidth": "10%", 
+            "aTargets": [ -1 ]
+        },
+        {
+            "bSearchable": false, 
+            "bVisible": false, 
+            "aTargets": [ 0 ]
+        }//Removing ID
+        ]
     });
-    
-    /* Apply the jEditable handlers to the table */
-//    $('td', oTableLocation.fnGetNodes()).editable( '/admin/crr', {
-//        "callback": function( sValue, y ) {
-//            var aPos = oTableLocation.fnGetPosition( this );
-//            console.log("svalue = "+sValue);
-//            oTableLocation.fnUpdate( sValue, aPos[0], aPos[1] );
-//        },
-//        "submitdata": function ( value, settings ) {
-//            var ret_arr = oTableLocation.fnGetPosition( this );
-//            //oTable.fnSettings().aoColumns[ret_arr[1]].sTitle
-//            return {  
-//                "operation": 'rename' + oTableLocation.fnSettings().aoColumns[ret_arr[1]].sTitle,
-//                "row_id": this.parentNode.getAttribute('id'),
-//                "column": oTableLocation.fnGetPosition( this )[2]
-//            };
-//        },
-//        "event": "dblclick",
-//        "height": "10px"
-//    } );
 } );
 
 //create a marker
 function setupMarker(event){
-    event2 = event;
-    var LatNode = event.target.parentNode.cells[3];
-    var LngNode = event.target.parentNode.cells[4];
-    console.log("debug");
-    console.log(LatNode);
-    console.log(LngNode);
-    var location =new google.maps.LatLng($(LatNode).html(),$(LngNode).html());
-    if (typeof marker != "undefined")
-        marker.setVisible(false);
-    marker = new google.maps.Marker({
-        position: location, 
-        map: map,
-        draggable: true
-    });
-    google.maps.event.addListener(marker, 'drag', function(event){
-        $(LatNode).html(event.latLng.lat());
-        $(LngNode).html(event.latLng.lng());
-    });
-    google.maps.event.addListener(marker, 'dragend', function(event){
-        
-        //make a ajax call to save the information
-        map.panTo(event.latLng);
-    });
-    marker.setVisible(true);
-    map.panTo(location);
-    $(event.target.parentNode).addClass('row_selected');
+    var LatNode = event.target.parentNode.cells[2];
+    var LngNode = event.target.parentNode.cells[3];
+    var LatNodeHtml = $(LatNode).html();
+    var LngNodeHtml = $(LngNode).html();
+    var LatTrimmed = $.trim(LatNodeHtml);
+    var LngTrimmed = $.trim(LngNodeHtml);
+    if(LatTrimmed.length > 0 || LngTrimmed.length > 0){
+        var location =new google.maps.LatLng($(LatNode).html(),$(LngNode).html());
+        if (typeof marker != "undefined")
+            marker.setVisible(false);
+        if (typeof clickMarker != "undefined")
+            clickMarker.setVisible(false);
+        marker = new google.maps.Marker({
+            position: location, 
+            map: map,
+            draggable: true
+        });
+        google.maps.event.addListener(marker, 'drag', function(event){
+            $(LatNode).html(event.latLng.lat());
+            $(LngNode).html(event.latLng.lng());
+        });
+        google.maps.event.addListener(marker, 'dragend', function(event){
+          map.panTo(event.latLng);
+        });
+        marker.setVisible(true);
+        clickMarker.setVisible(false);
+        map.panTo(location);
+    }
 }
 
 function fillLocationForm(oTableLocal){
@@ -94,7 +82,6 @@ function fillLocationForm(oTableLocal){
     $('#LocationDescription').val(data[2]);
     $('#lat').val(data[3]);
     $('#lng').val(data[4]);
-    
 }
 
 /* Get the rows which are currently selected */
@@ -107,7 +94,6 @@ function fnGetSelectedLocation( oTableLocal )
     {
         if ( $(aTrs[i]).hasClass('row_selected') )
         {
-            //deleteLocation(aTrs[i].cells[0].id);
             aReturn.push( aTrs[i] );
         }
     }

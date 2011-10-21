@@ -4,7 +4,7 @@ $(document).ready(function() {
         $(oTable.fnSettings().aoData).each(function (){
             $(this.nTr).removeClass('row_selected');
         });
-        setupMarker(event);
+        //setupMarker(event);
     });
 	
     /* Add a click handler for the delete row */
@@ -46,30 +46,30 @@ $(document).ready(function() {
 } );
 
 //create a marker
-function setupMarker(event){
-    var LatNode = event.target.parentNode.cells[2];
-    var LngNode = event.target.parentNode.cells[3];
-    var location =new google.maps.LatLng($(LatNode).html(),$(LngNode).html());
-    if (typeof marker != "undefined")
-        marker.setVisible(false);
-    marker = new google.maps.Marker({
-        position: location, 
-        map: map,
-        draggable: true
-    });
-    google.maps.event.addListener(marker, 'drag', function(event){
-        $(LatNode).html(event.latLng.lat());
-        $(LngNode).html(event.latLng.lng());
-    });
-    google.maps.event.addListener(marker, 'dragend', function(event){
-        
-        //make a ajax call to save the information
-        map.panTo(event.latLng);
-    });
-    marker.setVisible(true);
-    map.panTo(location);
-    $(event.target.parentNode).addClass('row_selected');
-}
+//function setupMarker(event){
+//    var LatNode = event.target.parentNode.cells[2];
+//    var LngNode = event.target.parentNode.cells[3];
+//    var location =new google.maps.LatLng($(LatNode).html(),$(LngNode).html());
+//    if (typeof marker != "undefined")
+//        marker.setVisible(false);
+//    marker = new google.maps.Marker({
+//        position: location, 
+//        map: map,
+//        draggable: true
+//    });
+//    google.maps.event.addListener(marker, 'drag', function(event){
+//        $(LatNode).html(event.latLng.lat());
+//        $(LngNode).html(event.latLng.lng());
+//    });
+//    google.maps.event.addListener(marker, 'dragend', function(event){
+//        
+//        //make a ajax call to save the information
+//        map.panTo(event.latLng);
+//    });
+//    marker.setVisible(true);
+//    map.panTo(location);
+//    $(event.target.parentNode).addClass('row_selected');
+//}
 
 /* Get the rows which are currently selected */
 function fnGetSelected( oTableLocal )
