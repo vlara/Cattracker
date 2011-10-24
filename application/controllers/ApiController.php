@@ -6,9 +6,10 @@ class ApiController extends Zend_Controller_Action
     public function init()
     {
         /* Initialize action controller here */
-        $contextSwitch = $this->_helper->getHelper('contextSwitch');
-        $contextSwitch->addActionContext("getallsessions", array('xml'))
-                      ->initContext();
+      $contextSwitch = $this->_helper->getHelper('contextSwitch');
+        $contextSwitch->addActionContext("getalllines", array('xml'))->initContext();
+//        $contextSwitch->addActionContext("getalllines", array('xml'))
+//                      ->initContext();
     }
 
     public function indexAction()
@@ -19,11 +20,14 @@ class ApiController extends Zend_Controller_Action
     public function getallsessionsAction(){
         $this->_helper->layout()->disableLayout();
         $this->_helper->viewRenderer->setNoRender();
-        $sessionMapper = new Model_SessionMapper();
-        $sessions = $sessionMapper->fetchAll();
+        //$this->_response->clearHeaders();
+        $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8');
         $dom = new DOMDocument("1.0");
         $node = $dom->createElement("Sessions");
         $parnode = $dom->appendChild($node);
+       
+        $sessionMapper = new Model_SessionMapper();
+        $sessions = $sessionMapper->fetchAll();
         foreach($sessions as $session){
             $node = $dom->createElement("Session");
             $newnode = $parnode->appendChild($node);
@@ -31,11 +35,27 @@ class ApiController extends Zend_Controller_Action
             $newnode->setAttribute("desc", $session->getDesc());
             $newnode->setAttribute("active", $session->getActive());
         }
-        $this->_response->clearHeaders();
-        $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8');
         echo $dom->saveXML();
     }
+    //Location and Session Work
 
-
+    public function getalllinesAction(){
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        //$this->_response->clearHeaders();
+        $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8');
+        $dom = new DOMDocument("1.0");
+        $node = $dom->createElement("Lines");
+        $parnode = $dom->appendChild($node);
+       //$linesMapper = new Model_LineMapper();
+        $test = new Model_LineMapper();//########## THIS CAUSES A WHITE LINE ON TOP DONT KNOW WHY KILLS XML.......
+//        foreach($lines as $line){
+//            $node = $dom->createElement("Line");
+//            $newnode = $parnode->appendChild($node);
+//            $newnode->setAttribute("id", $line->getId());
+//            $newnode->setAttribute("name", $line->getName());
+//        }
+        echo $dom->saveXML();
+    }
 }
 

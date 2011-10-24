@@ -60,6 +60,5 @@ class Model_Line
         return $this;
     }
 
-
 }
 ?>

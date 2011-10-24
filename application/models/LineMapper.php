@@ -64,11 +64,9 @@ class Model_LineMapper {
     }
     
     public function deleteLine($id){
-        print_r("test". $id);
         $table = $this->getDbTable();
         $where = $this->db->quoteInto('id = ?', $id);
         $table->delete($where);
-        print_r("test");
     }
     
     public function getLastInsertedID(){
