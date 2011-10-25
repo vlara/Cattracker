@@ -70,25 +70,7 @@ class Model_LocationMapper {
         
         return $entries;
     }
-    public function fetchAllByID($id){
-        $resultSet = $this->getDbTable()->find(array(18));
-        return $resultSet;
-//        $sql = "SELECT * FROM location WHERE id IN ?";
-//$stmt = $this->db->prepare($sql);
-//$stmt->execute($ids);
-//return $stmt->fetchAll();
-
-//        $table = $this->getDbTable();
-//        $select = $table->select();
-//        $select->where("id in (?)", $ids);
-//        $resultSet = $table->fetchAll($select);
-//        foreach($resultSet as $result) {
-//            $entry = new Model_Location();
-//            $entry->setId($result->id)->setLat($result->lat)->setLng($result->lng)->setName($result->name);
-//            $entries[] = $entry;
-//        }
-//        return $entries;
-    }
+    
     public function save(Model_Location $location){
         $data = array(
             'id' => $location->getId(),
