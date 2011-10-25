@@ -54,6 +54,33 @@ class ApiController extends Zend_Controller_Action {
         }
         $this->_response->setBody($dom->saveXML());
     }
+    
+    //get all markers for a specific time
+    public function getallmarkersforlineAction(){
+        $id = $this->_getParam("id");
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8');
+        $dom = new DOMDocument("1.0");
+        $node = $dom->createElement("Locations");
+        $parnode = $dom->appendChild($node);
+        $arrivalMapper = new Model_ArrivalMapper();
+        $locationMapper = new Model_LocationMapper();
+        $arrivals = $arrivalMapper->fetchAllByLineID($id);
+        foreach($arrivals as $arrival){
+            $location = new Model_Location();
+            $locationMapper->find($arrival->getLocation(), $location);
+            $locations[] = $location;
+            $node = $dom->createElement("Location");
+            $newnode = $parnode->appendChild($node);
+            $newnode->setAttribute("id", $location->getId());
+            $newnode->setAttribute("name", $location->getName());
+            $newnode->setAttribute("lat", $location->getLat());
+            $newnode->setAttribute("lng", $location->getLng());
+            $newnode->setAttribute("desc", $location->getDescription());
+        }
+        $this->_response->setBody($dom->saveXML());
+    }
 
 }
 

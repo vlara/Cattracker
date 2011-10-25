@@ -73,6 +73,20 @@ class Model_ArrivalMapper {
         }
         return $entries;
     }
+    
+    public function fetchAllByLineID($id){
+        $table = $this->getDbTable();
+        $select = $table->select();
+        $select->where('line = ?', $id);
+        $resultSet = $table->fetchAll($select);
+        foreach($resultSet as $result) {
+            $entry = new Model_Arrival();
+            $entry->setLine($result->line)->setLocation($result->location)->setTime($result->time)->setSessionID($result->sessionID)->setID($result->id);
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+    
     public function delete($id){
         $table = $this->getDbTable();
         $where = $this->db->quoteInto('id = ?', $id);
