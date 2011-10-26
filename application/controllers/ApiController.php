@@ -66,6 +66,7 @@ class ApiController extends Zend_Controller_Action {
         $parnode = $dom->appendChild($node);
         $arrivalMapper = new Model_ArrivalMapper();
         $locationMapper = new Model_LocationMapper();
+        $lineMapper = new Model_LineMapper();
         $arrivals = $arrivalMapper->fetchAllByLineID($id);
         //
         
@@ -76,9 +77,12 @@ class ApiController extends Zend_Controller_Action {
             $node = $dom->createElement("Location");
             
             if (isset($locationParent[$location->getId()])){
-                $node2 = $dom->createElement("Time");
+                $node2 = $dom->createElement("Arrival");
                 $timenode = $locationParent[$location->getId()]->appendChild($node2);
                 $timenode->setAttribute("time", $arrival->getTime());
+                $line = new Model_Line();
+                $lineName = $lineMapper->find($arrival->getLine(), $line);
+                $timenode->setAttribute("line", $line->getName());
             }
             else {
                 $newnode = $parnode->appendChild($node);
@@ -91,6 +95,9 @@ class ApiController extends Zend_Controller_Action {
                 $node2 = $dom->createElement("Time");
                 $timenode = $newnode->appendChild($node2);
                 $timenode->setAttribute("time", $arrival->getTime());
+                $line = new Model_Line();
+                $lineName = $lineMapper->find($arrival->getLine(), $line);
+                $timenode->setAttribute("line", $line->getName());
                 }
         }
         $this->_response->setBody($dom->saveXML());
@@ -106,6 +113,7 @@ class ApiController extends Zend_Controller_Action {
         $parnode = $dom->appendChild($node);
         $arrivalMapper = new Model_ArrivalMapper();
         $locationMapper = new Model_LocationMapper();
+        $lineMapper = new Model_LineMapper();
         $arrivals = $arrivalMapper->fetchAll($id);
         //
         foreach($arrivals as $arrival){
@@ -115,9 +123,12 @@ class ApiController extends Zend_Controller_Action {
             $node = $dom->createElement("Location");
             
             if (isset($locationParent[$location->getId()])){
-                $node2 = $dom->createElement("Time");
+                $node2 = $dom->createElement("Arrival");
                 $timenode = $locationParent[$location->getId()]->appendChild($node2);
                 $timenode->setAttribute("time", $arrival->getTime());
+                $line = new Model_Line();
+                $lineName = $lineMapper->find($arrival->getLine(), $line);
+                $timenode->setAttribute("line", $line->getName());
             }
             else {
                 $newnode = $parnode->appendChild($node);
@@ -127,9 +138,12 @@ class ApiController extends Zend_Controller_Action {
                 $newnode->setAttribute("lng", $location->getLng());
                 $newnode->setAttribute("desc", $location->getDescription());
                 $locationParent[$location->getId()] = $newnode;
-                $node2 = $dom->createElement("Time");
+                $node2 = $dom->createElement("Arrival");
                 $timenode = $newnode->appendChild($node2);
                 $timenode->setAttribute("time", $arrival->getTime());
+                $line = new Model_Line();
+                $lineName = $lineMapper->find($arrival->getLine(), $line);
+                $timenode->setAttribute("line", $line->getName());
                 }
         }
         $this->_response->setBody($dom->saveXML());
