@@ -95,6 +95,45 @@ class ApiController extends Zend_Controller_Action {
         }
         $this->_response->setBody($dom->saveXML());
     }
+    
+    public function getallmarkersAction(){
+        $id = $this->_getParam("id");
+        $this->_helper->layout()->disableLayout();
+        $this->_helper->viewRenderer->setNoRender();
+        $this->_response->setHeader('Content-Type', 'text/xml; charset=utf-8');
+        $dom = new DOMDocument("1.0");
+        $node = $dom->createElement("Locations");
+        $parnode = $dom->appendChild($node);
+        $arrivalMapper = new Model_ArrivalMapper();
+        $locationMapper = new Model_LocationMapper();
+        $arrivals = $arrivalMapper->fetchAll($id);
+        //
+        foreach($arrivals as $arrival){
+            $location = new Model_Location();
+            $locationMapper->find($arrival->getLocation(), $location);
+            $locations[] = $location;
+            $node = $dom->createElement("Location");
+            
+            if (isset($locationParent[$location->getId()])){
+                $node2 = $dom->createElement("Time");
+                $timenode = $locationParent[$location->getId()]->appendChild($node2);
+                $timenode->setAttribute("time", $arrival->getTime());
+            }
+            else {
+                $newnode = $parnode->appendChild($node);
+                $newnode->setAttribute("id", $location->getId());
+                $newnode->setAttribute("name", $location->getName());
+                $newnode->setAttribute("lat", $location->getLat());
+                $newnode->setAttribute("lng", $location->getLng());
+                $newnode->setAttribute("desc", $location->getDescription());
+                $locationParent[$location->getId()] = $newnode;
+                $node2 = $dom->createElement("Time");
+                $timenode = $newnode->appendChild($node2);
+                $timenode->setAttribute("time", $arrival->getTime());
+                }
+        }
+        $this->_response->setBody($dom->saveXML());
+    }
 
 }
 
