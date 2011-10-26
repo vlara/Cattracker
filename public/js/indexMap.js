@@ -5,7 +5,7 @@ var customIcons = {
         icon: 'images/busstop.png'
       }
 }
-var markersArr;
+var markersArr = [];
 
 function initialize() {
     //map
@@ -75,7 +75,7 @@ function placeMarkerFromXML(id){
                 icon: icon.icon
             //shadow: icon.shadow
             });
-            markerArr.push(marker);
+            markersArr.push(marker);
             bindInfoWindow(marker, map, infoWindow, html);
         }
     });
@@ -104,4 +104,12 @@ function bindInfoWindow(marker, map, infoWindow, html) {
         infoWindow.setContent(html);
         infoWindow.open(map, marker);
     });
+}
+
+function clearMarkers() {
+    if(markersArr) {
+        for (i in markersArr) {
+            markersArr[i].setMap(null);
+        }
+    }
 }
