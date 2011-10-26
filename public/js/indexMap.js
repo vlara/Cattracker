@@ -1,4 +1,12 @@
 var map;
+var infoWindow;
+var customIcons = {
+      busstop: {
+        icon: 'images/busstop.png'
+      }
+}
+var markersArr;
+
 function initialize() {
     //map
     //var marker = new google.maps.Marker();
@@ -9,6 +17,7 @@ function initialize() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    infoWindow = new google.maps.InfoWindow;
 //    google.maps.event.addListener(map, 'click', function(event) {
 //        marker.setVisible(false);
 //        placeMarker(event.latLng);
@@ -35,4 +44,64 @@ function initialize() {
 }
 $(document).ready(function() {
     initialize();
+    
+    $('#id').change(function() {
+        clearMarkers();
+        placeMarkerFromXML($('#id').val());
+    });
 });
+
+function placeMarkerFromXML(id){
+    downloadUrl("/api/getallmarkersforline/id/"+id, function(data) {
+        var xml = data.responseXML;
+        var markers = xml.documentElement.getElementsByTagName("Location");
+        for (var i = 0; i < markers.length; i++) {
+            
+            var times = markers[i].getElementsByTagName("Time");
+            var timeArr = new Array();
+            for(var x = 0; x < times.length; x++) {
+                timeArr[x] = times[x].getAttribute("time")
+            }
+            var name = markers[i].getAttribute("name");
+            var desc = markers[i].getAttribute("desc");
+            var point = new google.maps.LatLng(
+                parseFloat(markers[i].getAttribute("lat")),
+                parseFloat(markers[i].getAttribute("lng")));
+            var html = "<b>" + name + "</b> <br/>" + desc + "</b> <br/>" +timeArr.join(" , ");
+            var icon = customIcons["busstop"] || {};
+            var marker = new google.maps.Marker({
+                map: map,
+                position: point,
+                icon: icon.icon
+            //shadow: icon.shadow
+            });
+            markerArr.push(marker);
+            bindInfoWindow(marker, map, infoWindow, html);
+        }
+    });
+}
+
+function downloadUrl(url,callback) {
+    var request = window.ActiveXObject ?
+    new ActiveXObject('Microsoft.XMLHTTP') :
+    new XMLHttpRequest;
+
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            request.onreadystatechange = doNothing;
+            callback(request, request.status);
+        }
+    };
+
+    request.open('GET', url, true);
+    request.send(null);
+}
+
+function doNothing() {}
+
+function bindInfoWindow(marker, map, infoWindow, html) {
+    google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(html);
+        infoWindow.open(map, marker);
+    });
+}
