@@ -11,8 +11,10 @@ class IndexController extends Zend_Controller_Action
     public function indexAction()
     {
         // action body
-        $lineSelect = new Form_LineSelect();
-        $this->view->lineSelect = $lineSelect;
+        //$lineSelect = new Form_LineSelect();
+        //$this->view->lineSelect = $lineSelect;
+        $session = new Form_SelectLine();
+        $this->view->lineSelect = $session;
     }
 
     public function aboutAction()

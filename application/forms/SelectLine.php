@@ -1,18 +1,17 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Arrival form
  */
-class Form_LineSelect extends Zend_Form {
+class Form_SelectLine extends Zend_Form {
     
     public function init() {
+        $this->setMethod('post');
+        
         $lineMapper = new Model_LineMapper();
         $lines = $lineMapper->fetchAll();
         
-        $this->setMethod('post');
-        
-        $lineSelect = new Zend_Form_Element_Select("id");
+        $lineSelect = new Zend_Form_Element_Select("lineSelector");
         $lineSelect->addMultiOption("0", "- Select Line -");
         foreach($lines as $line){
             $lineSelect->addMultiOption($line->getId(),$line->getName());
@@ -26,7 +25,7 @@ class Form_LineSelect extends Zend_Form {
         ));
         
         $this->addElement($lineSelect);
+        
     }
 }
 ?>
-a

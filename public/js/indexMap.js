@@ -45,9 +45,9 @@ function initialize() {
 $(document).ready(function() {
     initialize();
     
-    $('#id').change(function() {
+    $('#lineSelector').change(function() {
         clearMarkers();
-        placeMarkerFromXML($('#id').val());
+        placeMarkerFromXML($('#lineSelector').val());
     });
 });
 
