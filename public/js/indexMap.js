@@ -6,7 +6,9 @@ var customIcons = {
     }
 }
 var markersArr = [];
+var allLocations = [];
 var geocoder;
+var queriedP;
 
 function initialize() {
     //map
@@ -53,6 +55,27 @@ function initialize() {
     };
     
     autocomplete = new google.maps.places.Autocomplete(input, options);
+    
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+        clearMarkers();
+        var place = autocomplete.getPlace();
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(15);
+        }
+        //        var image = new google.maps.MarkerImage(
+        //            place.icon, new google.maps.Size(71, 71),
+        //            new google.maps.Point(0, 0), new google.maps.Point(17, 34),
+        //            new google.maps.Size(35, 35));
+        //        marker.setIcon(image);
+        //        marker.setPosition(place.geometry.location);
+        showAddress(place.geometry.location);
+    //infowindow.setContent(place.name);
+    //infowindow.open(map, queriedP);
+        
+    });
 }
 $(document).ready(function() {
     initialize();
@@ -123,23 +146,73 @@ function clearMarkers() {
         for (i in markersArr) {
             markersArr[i].setMap(null);
         }
+        markersArr.length = 0;
+    }
+    if(allLocations) {
+        for (i in allLocations) {
+            allLocations[i].setVisible(false);
+        }
     }
 }
 
-function showAddress(){
-    var address = $('#addressSearch').val();
-    geocoder.geocode( {
-        'address': address
-    }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-            map.setZoom(15);
-        } else {
-            alert("Geocode was not successful for the following reason: " + status);
+function showAddress(location){
+    if (typeof queriedP != "undefined"){
+        queriedP.setPosition(location);
+    } else {
+        queriedP = new google.maps.Marker({
+            map: map,
+            position: location
+        });
+    }
+    getLocations();
+}
+
+function calculateDistance() {
+    var glatlng1  = new google.maps.LatLng(queriedP.getPosition().lat(), queriedP.getPosition().lng());
+    for(x = 0; x < allLocations.length; x++){
+        var glatlng2 = new google.maps.LatLng(allLocations[x].getPosition().lat(), allLocations[x].getPosition().lng());
+        var meterDistance = google.maps.geometry.spherical.computeDistanceBetween(glatlng1,glatlng2);
+        var miledistance = meterDistance * 0.000621371192;
+        if(miledistance <= 0.5){
+            allLocations[x].setVisible(true);
         }
-    });
+    }
+}
+
+function getLocations() {
+    if(allLocations.length == 0)
+    {
+        downloadUrl("/api/getallmarkers", function(data) {
+            var xml = data.responseXML;
+            var markers = xml.documentElement.getElementsByTagName("Location");
+            for (var i = 0; i < markers.length; i++) {
+            
+                var times = markers[i].getElementsByTagName("Arrival");
+                var timeArr = new Array();
+                for(var x = 0; x < times.length; x++) {
+                    timeArr[x] = times[x].getAttribute("time")
+                }
+                var name = markers[i].getAttribute("name");
+                var desc = markers[i].getAttribute("desc");
+                var point = new google.maps.LatLng(
+                    parseFloat(markers[i].getAttribute("lat")),
+                    parseFloat(markers[i].getAttribute("lng")));
+                var html = "<b>" + name + "</b> <br/>" + desc + "</b> <br/>" +timeArr.join(" , ");
+                var icon = customIcons["busstop"] || {};
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: point,
+                    icon: icon.icon,
+                    visible: false
+                //shadow: icon.shadow
+                });
+                allLocations.push(marker);
+                bindInfoWindow(marker, map, infoWindow, html);
+            }
+            calculateDistance();
+        });
+        
+    }else {
+        calculateDistance();
+    }
 }
