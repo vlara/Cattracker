@@ -9,18 +9,23 @@ var markersArr = [];
 var allLocations = [];
 var geocoder;
 var queriedP;
+var directionDisplay;
+var directionsService = new google.maps.DirectionsService();
 
 function initialize() {
     //map
     //var marker = new google.maps.Marker();
     geocoder = new google.maps.Geocoder();
+    directionsDisplay = new google.maps.DirectionsRenderer();
     var UCM = new google.maps.LatLng(37.366572, -120.424876);
     var myOptions = {
         zoom: 13,
         center: UCM,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        navigationControl: true
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    directionsDisplay.setMap(map);
     infoWindow = new google.maps.InfoWindow;
     //    google.maps.event.addListener(map, 'click', function(event) {
     //        marker.setVisible(false);
@@ -110,6 +115,9 @@ function placeMarkerFromXML(id){
                 icon: icon.icon
             //shadow: icon.shadow
             });
+            google.maps.event.addListener(marker, 'click', function(latLng) {
+                calcRoute(this.position.Na, this.position.Oa);
+            });
             markersArr.push(marker);
             bindInfoWindow(marker, map, infoWindow, html);
         }
@@ -182,7 +190,7 @@ function calculateDistance() {
 function getLocations() {
     if(allLocations.length == 0)
     {
-        downloadUrl("/api/getallmarkers", function(data) {
+        downloadUrl("/xml/Locations.xml", function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName("Location");
             for (var i = 0; i < markers.length; i++) {
@@ -206,6 +214,9 @@ function getLocations() {
                     visible: false
                 //shadow: icon.shadow
                 });
+                google.maps.event.addListener(marker, 'click', function(latLng) {
+                    calcRoute(this.position.Na, this.position.Oa);
+                });
                 allLocations.push(marker);
                 bindInfoWindow(marker, map, infoWindow, html);
             }
@@ -216,3 +227,33 @@ function getLocations() {
         calculateDistance();
     }
 }
+
+function calcRoute(lat, lng) {
+    // your location
+    if(typeof queriedP != "undefined"){
+        var start  = new google.maps.LatLng(queriedP.getPosition().lat(), queriedP.getPosition().lng());
+        var dest = new google.maps.LatLng(lat, lng);
+        //var start = "37.36683633481877, -120.42398014218901";
+        //var dest = "37.33246926600748, -120.4823503747711";
+        var request = {
+            origin:start,
+            destination:dest,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsDisplay.setMap(map);
+        directionsService.route(request, function(response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                directionsDisplay.setMap(map);
+            }
+            else {
+                alert("no directions found status " + status);
+            }
+        });
+    }
+}
+
+/*
+ * start: 37.36683633481877, -120.42398014218901
+ * end: 37.33246926600748, -120.4823503747711
+ */
