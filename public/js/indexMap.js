@@ -92,7 +92,7 @@ $(document).ready(function() {
 });
 
 function placeMarkerFromXML(id){
-    downloadUrl("/api/getallmarkersforline/id/"+id, function(data) {
+    downloadUrl("/xml/Line-"+id + ".xml", function(data) {
         var xml = data.responseXML;
         var markers = xml.documentElement.getElementsByTagName("Location");
         for (var i = 0; i < markers.length; i++) {
