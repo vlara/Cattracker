@@ -4,7 +4,8 @@
 <aside id="featured" class="body">
     <article>
         <p>let us help you get to your destination</p>
-        <div><input type="textbox" onfocus="if (this.value=='address') this.value = ''"  name="addressSearch" id="addressSearch" value="address"/> <button onclick="showAddress()">Search!</button></div>
+        <div><input type="textbox" onfocus="if (this.value=='your location') this.value = ''"  name="addressSearch" id="addressSearch" value="your location"/>
+        <input type="textbox" onfocus="if (this.value=='destination location') this.value = ''"  name="destSearch" id="destSearch" value="destination location"/></div>
         <div id="map_canvas"></div>
         <div>
             <?php echo $this->lineSelect; ?>

@@ -382,3 +382,6 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 #addressSearch {
     width: 300px;
 }
+#destSearch{
+    width: 300px;
+}
